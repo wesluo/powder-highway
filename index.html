@@ -1088,6 +1088,221 @@
             position: relative;
             z-index: 1;
         }
+
+        /* Mobile Responsive Design */
+        @media (max-width: 768px) {
+            /* Base slide adjustments */
+            .slide {
+                padding: 60px 24px;
+                min-height: auto;
+            }
+
+            .slide-content {
+                padding: 30px 20px;
+            }
+
+            /* Typography scaling */
+            h1 {
+                font-size: clamp(40px, 12vw, 72px);
+                line-height: 1.1;
+            }
+
+            h2 {
+                font-size: clamp(32px, 10vw, 56px);
+                line-height: 1.2;
+            }
+
+            h3 {
+                font-size: clamp(24px, 8vw, 36px);
+            }
+
+            p {
+                font-size: 16px;
+                line-height: 1.7;
+            }
+
+            /* Slide 1: Title */
+            .title-badge {
+                font-size: 11px;
+                padding: 10px 20px;
+            }
+
+            .title-meta {
+                font-size: 14px;
+                line-height: 1.6;
+            }
+
+            .cta-button {
+                padding: 14px 28px;
+                font-size: 14px;
+            }
+
+            /* Slide 2: Stats Grid */
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+
+            .stat-box {
+                padding: 24px 16px;
+            }
+
+            .stat-number {
+                font-size: 42px;
+            }
+
+            .stat-label {
+                font-size: 13px;
+            }
+
+            .map-container {
+                margin: 30px 0;
+            }
+
+            /* Slide 3: Journey Cards */
+            .journey-cards {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .journey-card {
+                padding: 28px 24px;
+            }
+
+            .journey-card h3 {
+                font-size: 22px;
+            }
+
+            /* Slide 4-6: Tables */
+            .route-table-container {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .route-table {
+                font-size: 12px;
+                min-width: 600px;
+            }
+
+            .route-table th,
+            .route-table td {
+                padding: 10px 8px;
+            }
+
+            /* Slide 5: Resort Cards */
+            .resort-cards {
+                flex-direction: column;
+                gap: 24px;
+            }
+
+            .resort-card {
+                padding: 32px 24px;
+            }
+
+            .resort-vertical {
+                font-size: 52px;
+            }
+
+            /* Slide 7: Cost Grid */
+            .cost-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .cost-card {
+                padding: 28px 24px;
+            }
+
+            /* Slide 8: Details Table */
+            .details-table-container {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .details-table {
+                font-size: 11px;
+                min-width: 800px;
+            }
+
+            .details-table th,
+            .details-table td {
+                padding: 8px 6px;
+            }
+
+            /* Slide 9: Checklist */
+            .checklist {
+                padding: 0 10px;
+            }
+
+            .checklist-item {
+                padding: 18px 20px;
+                font-size: 15px;
+            }
+
+            .check-icon {
+                width: 24px;
+                height: 24px;
+                font-size: 14px;
+            }
+
+            /* General spacing adjustments */
+            .info-box,
+            .callout-box {
+                padding: 24px 20px;
+                margin: 24px 0;
+            }
+
+            .bottom-note {
+                font-size: 14px;
+                padding: 0 10px;
+            }
+        }
+
+        /* Extra small devices */
+        @media (max-width: 480px) {
+            .slide {
+                padding: 40px 16px;
+            }
+
+            h1 {
+                font-size: clamp(32px, 11vw, 56px);
+            }
+
+            h2 {
+                font-size: clamp(28px, 9vw, 44px);
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .stat-number {
+                font-size: 36px;
+            }
+
+            .route-table,
+            .details-table {
+                font-size: 10px;
+            }
+
+            .cta-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Landscape mobile devices */
+        @media (max-width: 896px) and (orientation: landscape) {
+            .slide {
+                min-height: auto;
+                padding: 40px 30px;
+            }
+
+            h1 {
+                font-size: clamp(36px, 8vw, 64px);
+            }
+        }
     </style>
 </head>
 <body>
