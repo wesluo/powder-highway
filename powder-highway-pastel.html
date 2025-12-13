@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Powder Highway | A Dreamy Alpine Journey</title>
+
+    <!-- Soft Dreamscape Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* Soft Pastel Palette */
+            --cream: #fff8f0;
+            --soft-lavender: #e8d5f2;
+            --dreamy-pink: #ffd6e8;
+            --powder-blue: #d4e7f7;
+            --mint-dream: #d4f5e9;
+            --peach-soft: #ffe8d6;
+            --cloud-white: #ffffff;
+            --gentle-purple: #b8a4d1;
+            --soft-coral: #ffb5a7;
+            --pastel-gold: #ffd89b;
+
+            /* Typography */
+            --font-display: 'Quicksand', sans-serif;
+            --font-editorial: 'Cormorant Garamond', serif;
+            --font-body: 'Poppins', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: linear-gradient(135deg, var(--cream) 0%, var(--powder-blue) 50%, var(--soft-lavender) 100%);
+            background-attachment: fixed;
+            color: #5a5a5a;
+            overflow-x: hidden;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        /* Floating cloud overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 20% 50%, rgba(232, 213, 242, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(255, 214, 232, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 20%, rgba(212, 231, 247, 0.3) 0%, transparent 50%);
+            animation: cloudDrift 30s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes cloudDrift {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(3%, 3%) rotate(1deg); }
+            66% { transform: translate(-3%, -3%) rotate(-1deg); }
+        }
+
+        /* Soft glow particles */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.6) 0%, transparent 1%),
+                              radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.6) 0%, transparent 1%),
+                              radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.6) 0%, transparent 1%);
+            background-size: 200px 200px;
+            animation: particleFloat 20s linear infinite;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.5;
+        }
+
+        @keyframes particleFloat {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-200px); }
+        }
+
+        .slide {
+            min-height: 100vh;
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 60px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .slide-content {
+            max-width: 1400px;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Soft background overlays */
+        .slide-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.12;
+            filter: blur(3px) saturate(0.6) brightness(1.3);
+            z-index: 0;
+        }
+
+        .slide-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(255,248,240,0.8) 0%, rgba(255,255,255,0.6) 50%, rgba(232,213,242,0.8) 100%);
+        }
+
+        /* Typography */
+        h1 {
+            font-family: var(--font-display);
+            font-size: clamp(50px, 10vw, 120px);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: 2px;
+            color: var(--gentle-purple);
+            margin-bottom: 30px;
+            text-shadow: 0 2px 20px rgba(184,164,209,0.3);
+            text-align: center;
+        }
+
+        h2 {
+            font-family: var(--font-display);
+            font-size: clamp(40px, 6vw, 70px);
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: var(--gentle-purple);
+            margin-bottom: 40px;
+            text-shadow: 0 2px 15px rgba(184,164,209,0.2);
+            text-align: center;
+        }
+
+        h3 {
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: var(--soft-coral);
+            margin-bottom: 20px;
+        }
+
+        .subtitle {
+            font-family: var(--font-editorial);
+            font-size: 26px;
+            font-style: italic;
+            color: #7a7a7a;
+            margin-bottom: 40px;
+            font-weight: 400;
+            text-align: center;
+        }
+
+        .accent-line {
+            width: 150px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--soft-coral), transparent);
+            margin: 30px auto;
+            opacity: 0.6;
+        }
+
+        /* Gentle animations */
+        @keyframes gentleFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes softPulse {
+            0%, 100% { opacity: 0.9; }
+            50% { opacity: 1; }
+        }
+
+        /* Slide 1 - Title */
+        .slide-1 {
+            background: linear-gradient(135deg, var(--cream) 0%, var(--soft-lavender) 100%);
+            text-align: center;
+        }
+
+        .hero-title {
+            background: linear-gradient(135deg, var(--gentle-purple) 0%, var(--soft-coral) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: softPulse 4s ease-in-out infinite;
+        }
+
+        .decorative-line {
+            width: 200px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--soft-coral), transparent);
+            margin: 40px auto;
+            opacity: 0.5;
+        }
+
+        .date-badge {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(184, 164, 209, 0.3);
+            display: inline-block;
+            padding: 20px 50px;
+            border-radius: 50px;
+            margin: 40px 0;
+            box-shadow: 0 10px 40px rgba(184, 164, 209, 0.2);
+        }
+
+        .date-badge span {
+            font-family: var(--font-display);
+            font-size: 24px;
+            letter-spacing: 2px;
+            color: var(--gentle-purple);
+            font-weight: 600;
+        }
+
+        .tagline {
+            font-family: var(--font-editorial);
+            font-size: 22px;
+            color: #8a8a8a;
+            margin-top: 40px;
+            font-style: italic;
+        }
+
+        /* Soft Cloud Cards */
+        .cloud-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(184, 164, 209, 0.2);
+            border-radius: 30px;
+            padding: 40px;
+            margin: 30px 0;
+            box-shadow: 0 15px 50px rgba(184, 164, 209, 0.15);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .cloud-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 70px rgba(184, 164, 209, 0.25);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 182, 193, 0.3);
+            padding: 40px 30px;
+            text-align: center;
+            border-radius: 25px;
+            box-shadow: 0 10px 40px rgba(255, 182, 193, 0.15);
+            transition: all 0.4s ease;
+            animation: gentleFloat 4s ease-in-out infinite;
+        }
+
+        .stat-box:nth-child(2) { animation-delay: 0.5s; }
+        .stat-box:nth-child(3) { animation-delay: 1s; }
+        .stat-box:nth-child(4) { animation-delay: 1.5s; }
+
+        .stat-box:hover {
+            transform: scale(1.05) translateY(-5px);
+            border-color: var(--soft-coral);
+            box-shadow: 0 15px 60px rgba(255, 182, 193, 0.3);
+        }
+
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: 56px;
+            font-weight: 700;
+            color: var(--soft-coral);
+            display: block;
+            text-shadow: 0 2px 10px rgba(255, 182, 193, 0.3);
+        }
+
+        .stat-label {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #9a9a9a;
+            margin-top: 15px;
+            font-weight: 400;
+        }
+
+        /* Map Container */
+        .map-container {
+            margin: 50px 0;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(184, 164, 209, 0.2);
+            border: 3px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .map-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            opacity: 0.85;
+            filter: saturate(0.8) brightness(1.1);
+        }
+
+        /* Phase Grid */
+        .phase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin: 50px 0;
+        }
+
+        .phase-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(212, 245, 233, 0.4);
+            padding: 50px 40px;
+            border-radius: 30px;
+            transition: all 0.5s ease;
+            box-shadow: 0 10px 40px rgba(212, 245, 233, 0.2);
+        }
+
+        .phase-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: 20%;
+            right: 20%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--mint-dream), transparent);
+            border-radius: 2px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .phase-card:hover::before {
+            opacity: 1;
+        }
+
+        .phase-card.highlight {
+            background: linear-gradient(135deg, rgba(255, 214, 232, 0.4), rgba(232, 213, 242, 0.4));
+            border-color: var(--soft-coral);
+            box-shadow: 0 15px 60px rgba(255, 182, 193, 0.3);
+        }
+
+        .route-list {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .route-arrow {
+            color: var(--soft-coral);
+            font-size: 18px;
+            opacity: 0.7;
+        }
+
+        /* Soft Table */
+        .route-table {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(184, 164, 209, 0.2);
+            margin: 40px 0;
+            overflow: hidden;
+            border-radius: 25px;
+            box-shadow: 0 10px 40px rgba(184, 164, 209, 0.15);
+        }
+
+        .route-table th {
+            background: linear-gradient(135deg, rgba(232, 213, 242, 0.6), rgba(212, 231, 247, 0.6));
+            color: var(--gentle-purple);
+            padding: 20px 15px;
+            font-family: var(--font-display);
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            border-bottom: 2px solid rgba(184, 164, 209, 0.3);
+        }
+
+        .route-table td {
+            padding: 18px 15px;
+            border-bottom: 1px solid rgba(184, 164, 209, 0.1);
+            color: #6a6a6a;
+            font-size: 15px;
+        }
+
+        .route-table tr:hover {
+            background: rgba(255, 214, 232, 0.15);
+        }
+
+        /* Resort Grid */
+        .resort-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin: 50px 0;
+        }
+
+        .resort-feature {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 214, 232, 0.3);
+            padding: 50px 40px;
+            text-align: center;
+            border-radius: 30px;
+            box-shadow: 0 10px 40px rgba(255, 182, 193, 0.15);
+            transition: all 0.4s ease;
+        }
+
+        .resort-feature::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: 20%;
+            right: 20%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--soft-coral), transparent);
+            border-radius: 2px;
+        }
+
+        .resort-feature:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 70px rgba(255, 182, 193, 0.25);
+        }
+
+        .resort-feature.main-resort {
+            border-top: 4px solid var(--soft-coral);
+        }
+
+        /* Flexibility Box */
+        .flexibility-box {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.85), rgba(232, 213, 242, 0.4));
+            backdrop-filter: blur(25px);
+            border: 2px solid rgba(184, 164, 209, 0.3);
+            padding: 50px 45px;
+            border-radius: 35px;
+            box-shadow: 0 20px 60px rgba(184, 164, 209, 0.2);
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        /* Cost Grid */
+        .cost-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+            margin: 50px 0;
+        }
+
+        .cost-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(212, 245, 233, 0.3);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 10px 40px rgba(212, 245, 233, 0.15);
+        }
+
+        .cost-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(184, 164, 209, 0.15);
+        }
+
+        .cost-total {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 20px;
+            margin-top: 20px;
+            border-top: 2px solid var(--soft-coral);
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--soft-coral);
+        }
+
+        /* Callout Boxes */
+        .callout, .summary-box {
+            background: linear-gradient(135deg, rgba(255, 214, 232, 0.3), rgba(255, 232, 214, 0.3));
+            border: 2px solid rgba(255, 182, 193, 0.3);
+            padding: 30px;
+            border-radius: 25px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(255, 182, 193, 0.15);
+        }
+
+        /* Checklist */
+        .checklist {
+            max-width: 600px;
+            margin: 60px auto;
+        }
+
+        .checklist-item {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(15px);
+            border-left: 4px solid var(--soft-coral);
+            padding: 20px 30px;
+            margin: 20px 0;
+            border-radius: 20px;
+            font-size: 19px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(255, 182, 193, 0.1);
+        }
+
+        .checklist-item:hover {
+            transform: translateX(15px);
+            box-shadow: 0 8px 30px rgba(255, 182, 193, 0.2);
+        }
+
+        .bottom-note {
+            font-family: var(--font-editorial);
+            font-size: 18px;
+            color: #8a8a8a;
+            margin-top: 40px;
+            font-style: italic;
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        /* Content Wrapper */
+        .content-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Gentle fade animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: gentleFadeIn 1s ease-out forwards;
+        }
+
+        @keyframes gentleFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in:nth-child(1) { animation-delay: 0.2s; }
+        .fade-in:nth-child(2) { animation-delay: 0.4s; }
+        .fade-in:nth-child(3) { animation-delay: 0.6s; }
+        .fade-in:nth-child(4) { animation-delay: 0.8s; }
+        .fade-in:nth-child(5) { animation-delay: 1s; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 80px 30px;
+            }
+
+            h1 { font-size: 42px; }
+            h2 { font-size: 32px; }
+
+            .stats-grid { gap: 20px; }
+            .stat-number { font-size: 42px; }
+
+            .phase-grid, .cost-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Slide 1: Title -->
+    <section class="slide slide-1">
+        <div class="slide-bg" style="background-image: url('images/slide1.png');"></div>
+        <div class="slide-content">
+            <h1 class="hero-title">THE POWDER HIGHWAY</h1>
+            <p class="subtitle">3,000 Miles · 14 Mountains · Infinite Powder</p>
+            <div class="decorative-line"></div>
+            <div class="date-badge">
+                <span>JANUARY - FEBRUARY 2026</span>
+            </div>
+            <p class="tagline">An Epic/IKON Pass Road Trip</p>
+        </div>
+    </section>
+
+    <!-- Slide 2: The Dream -->
+    <section class="slide">
+        <div class="slide-bg" style="background-image: url('images/slide2.png');"></div>
+        <div class="slide-content">
+            <h2>The Dream</h2>
+
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <span class="stat-number">3,000+</span>
+                    <span class="stat-label">Miles Total</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">14</span>
+                    <span class="stat-label">Resorts</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">13</span>
+                    <span class="stat-label">Flexible Powder Days</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">2</span>
+                    <span class="stat-label">Epic + IKON + Day Tickets</span>
+                </div>
+            </div>
+
+            <div class="map-container">
+                <img src="Powder Highway Map.png" alt="Powder Highway Route Map" class="map-image">
+            </div>
+
+            <div class="cloud-card" style="text-align: center;">
+                <h3>BC Powder Highway Zone - All Flexible Resorts</h3>
+                <p style="font-size: 17px; line-height: 1.9; margin-top: 15px; color: #6a6a6a;">
+                    <strong>Revelstoke</strong> • <strong>Kicking Horse</strong> • Red Mountain • Lake Louise • Sun Peaks<br>
+                    Panorama • Silver Star • Kimberley • Fernie • Nakiska
+                </p>
+            </div>
+
+            <p class="bottom-note">22 days: 4 days north → 14 days powder zone → 4 days return</p>
+        </div>
+    </section>
+
+    <!-- Slide 3: Journey Structure -->
+    <section class="slide">
+        <div class="slide-bg" style="background-image: url('images/slide3.png');"></div>
+        <div class="slide-content">
+            <h2>22 Day Journey Structure</h2>
+
+            <div class="phase-grid">
+                <div class="phase-card">
+                    <h3>Phase 1: The Pilgrimage North</h3>
+                    <p style="color: #9a9a9a; margin-bottom: 20px;">(Days -1 to 3)</p>
+                    <div class="route-list">
+                        <span>Heavenly</span>
+                        <span class="route-arrow">→</span>
+                        <span>Warner Canyon</span>
+                        <span class="route-arrow">→</span>
+                        <span>Mt Bachelor</span>
+                        <span class="route-arrow">→</span>
+                        <span>Schweitzer</span>
+                    </div>
+                    <p style="font-style: italic; margin-top: 20px; color: #7a7a7a;">"4 days drive, 3 mountains"</p>
+                    <p style="font-size: 15px; margin-top: 15px; color: #8a8a8a;">Key stops: SLT → Lake View → Redmond → Coeur d'Alene → Cranbrook</p>
+                </div>
+
+                <div class="phase-card highlight">
+                    <h3>Phase 2: Powder Paradise</h3>
+                    <p style="color: #9a9a9a; margin-bottom: 20px;">(Days 4-17)</p>
+                    <p style="font-size: 26px; font-weight: 600; margin-bottom: 20px; color: var(--gentle-purple);">"14 days of storm chasing freedom"</p>
+                    <p style="color: #6a6a6a;">Resorts: Revelstoke, Kicking Horse, Red Mountain, Lake Louise, Sun Peaks, Panorama, Silver Star, Fernie, Nakiska</p>
+                    <p style="font-style: italic; margin-top: 20px; color: var(--soft-coral);">"Stay flexible, follow the snow"</p>
+                </div>
+
+                <div class="phase-card">
+                    <h3>Phase 3: Victory Lap Home</h3>
+                    <p style="color: #9a9a9a; margin-bottom: 20px;">(Days 18-21)</p>
+                    <div class="route-list">
+                        <span>Schweitzer</span>
+                        <span class="route-arrow">→</span>
+                        <span>Mt Hood</span>
+                        <span class="route-arrow">→</span>
+                        <span>Mt Bachelor</span>
+                    </div>
+                    <p style="font-style: italic; margin-top: 20px; color: #7a7a7a;">"4 days, different route, new mountains"</p>
+                    <p style="font-size: 15px; margin-top: 15px; color: #8a8a8a;">Key stops: Creston → Pasco → Redmond → Weed → Home</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 4: Pilgrimage North -->
+    <section class="slide">
+        <div class="slide-bg" style="background-image: url('images/Spokane.jpg');"></div>
+        <div class="slide-content">
+            <h2>The Pilgrimage North</h2>
+
+            <div class="content-wrapper">
+                <table class="route-table">
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Start</th>
+                            <th>Mountain</th>
+                            <th>Drive</th>
+                            <th>Night Stop</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>-1</td>
+                            <td>Folsom</td>
+                            <td>Heavenly</td>
+                            <td>2 hrs</td>
+                            <td>SLT</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td>SLT</td>
+                            <td>Warner Canyon</td>
+                            <td>5 hrs</td>
+                            <td>Lake View, OR</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>Lake View</td>
+                            <td>Mt Bachelor</td>
+                            <td>3.8 hrs</td>
+                            <td>Redmond, OR</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Redmond</td>
+                            <td>Rest day - drive</td>
+                            <td>7 hrs</td>
+                            <td>Coeur d'Alene</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Coeur d'Alene</td>
+                            <td>Schweitzer</td>
+                            <td>3.5 hrs</td>
+                            <td style="color: var(--soft-coral); font-weight: 600;">Cranbrook, BC<br>(Powder Highway!)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="callout">
+                    <p style="font-weight: 600; color: var(--gentle-purple);"><strong>4 days from start to Canada!</strong></p>
+                    <p style="margin-top: 10px; color: #6a6a6a;">• Ski half day, drive 5-6 hours</p>
+                    <p style="color: #6a6a6a;">• Cross into BC on Day 3</p>
+                    <p style="color: #6a6a6a;">• Arrive at the legendary Powder Highway</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 5: Powder Paradise -->
+    <section class="slide">
+        <div class="slide-bg" style="background-image: url('images/Revi.jpg');"></div>
+        <div class="slide-content">
+            <h2>Powder Paradise<br>The Heart of the Trip</h2>
+            <p class="subtitle">Days 4-17: 14 Days of Storm Chasing Freedom</p>
+
+            <div class="resort-grid">
+                <div class="resort-feature main-resort">
+                    <h3>Revelstoke</h3>
+                    <div class="stat-number">5,620 ft</div>
+                    <p style="font-size: 17px; margin-top: 10px; color: #6a6a6a;">North America's highest vertical</p>
+                    <p style="font-style: italic; color: #9a9a9a; margin-top: 15px;">"The Deep Day Capital"</p>
+                    <p style="margin-top: 10px; color: #7a7a7a;">3-5 days planned</p>
+                </div>
+
+                <div class="resort-feature main-resort">
+                    <h3>Kicking Horse</h3>
+                    <div class="stat-number">4,133 ft</div>
+                    <p style="font-size: 17px; margin-top: 10px; color: #6a6a6a;">Massive vertical drop</p>
+                    <p style="font-style: italic; color: #9a9a9a; margin-top: 15px;">"Extreme terrain paradise"</p>
+                    <p style="margin-top: 10px; color: #7a7a7a;">3-5 days planned</p>
+                </div>
+            </div>
+
+            <div class="flexibility-box">
+                <h3 style="font-size: 32px; margin-bottom: 20px; color: var(--gentle-purple);">14 Days, No Fixed Plans</h3>
+                <p style="font-size: 19px; margin-bottom: 15px; font-style: italic; color: #7a7a7a;">"Base camp or nomad - decide based on storms"</p>
+                <p style="font-size: 17px; color: #6a6a6a;"><strong>Storm Chase Options:</strong><br>
+                Red Mountain • Lake Louise • Sun Peaks • Panorama<br>
+                Silver Star • Kimberley • Fernie • Nakiska</p>
+            </div>
+
+            <div class="cloud-card" style="text-align: center;">
+                <p style="font-size: 20px; font-weight: 500; color: var(--gentle-purple);">Epic + IKON = Access to everything | Stay where the snow falls</p>
+            </div>
+
+            <p class="bottom-note">Average January snowfall: 15-20 storm days</p>
+        </div>
+    </section>
+
+    <!-- Slide 6: Victory Lap Home -->
+    <section class="slide">
+        <div class="slide-bg" style="background-image: url('images/WD.jpg');"></div>
+        <div class="slide-content">
+            <h2>Victory Lap Home</h2>
+
+            <div class="content-wrapper">
+                <table class="route-table">
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Start</th>
+                            <th>Mountain</th>
+                            <th>Drive</th>
+                            <th>Night Stop</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>18</td>
+                            <td>Creston, BC</td>
+                            <td>Schweitzer</td>
+                            <td>5 hrs</td>
+                            <td>Pasco, WA</td>
+                        </tr>
+                        <tr>
+                            <td>19</td>
+                            <td>Pasco</td>
+                            <td>Mt Hood</td>
+                            <td>5.3 hrs</td>
+                            <td>Redmond, OR</td>
+                        </tr>
+                        <tr>
+                            <td>20</td>
+                            <td>Redmond</td>
+                            <td>Mt Bachelor</td>
+                            <td>4.4 hrs</td>
+                            <td>Weed, CA</td>
+                        </tr>
+                        <tr>
+                            <td>21</td>
+                            <td>Weed</td>
+                            <td>Drive home</td>
+                            <td>6.9 hrs</td>
+                            <td>Folsom/Bay Area</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="summary-box">
+                    <h3 style="margin-bottom: 20px; color: var(--gentle-purple);">4 Days Home - The Victory Lap</h3>
+                    <p style="margin-top: 20px; font-weight: 600; color: var(--soft-coral); font-size: 24px;">Total: 4 days from Powder Highway to home</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 7: Reality Check -->
+    <section class="slide">
+        <div class="slide-bg" style="background-image: url('images/KH.jpg');"></div>
+        <div class="slide-content">
+            <h2>Reality Check</h2>
+
+            <div class="cost-grid">
+                <div class="cost-card">
+                    <h3 style="margin-bottom: 25px;">The Real Costs</h3>
+                    <div class="cost-item">
+                        <span>Gas (3,000 miles @ 20mpg, $5/gal)</span>
+                        <span style="color: var(--soft-coral);">~$750</span>
+                    </div>
+                    <div class="cost-item">
+                        <span>Lodging (22 nights @ $180/night)</span>
+                        <span style="color: var(--soft-coral);">~$3,960</span>
+                    </div>
+                    <div class="cost-item">
+                        <span>Day Tickets (Warner + Mt Hood x2)</span>
+                        <span style="color: var(--soft-coral);">$298</span>
+                    </div>
+                    <div class="cost-total">
+                        <span>Total for 22 Days</span>
+                        <span>~$5,010</span>
+                    </div>
+                </div>
+
+                <div class="cost-card">
+                    <h3 style="margin-bottom: 25px;">Storm Tracking Tools</h3>
+                    <div style="text-align: left; line-height: 2; color: #6a6a6a;">
+                        <p style="margin-bottom: 15px; font-weight: 600; color: var(--gentle-purple);"><strong>Weather Resources:</strong></p>
+                        <p>• OpenSnow: 10-day forecasts, storm tracking</p>
+                        <p>• weather.gc.ca: Canadian official forecasts</p>
+                        <p>• NOAA/NWS: US passes and highways</p>
+                        <p>• Resort Reports: Real-time conditions</p>
+
+                        <p style="margin: 20px 0 15px 0; font-weight: 600; color: var(--gentle-purple);"><strong>Real-time Road Twitter:</strong></p>
+                        <p>• @511Oregon - Oregon passes</p>
+                        <p>• @wsdot_passes - Washington passes</p>
+                        <p>• @DriveBC - BC highways</p>
+                        <p>• @CaltransD2 - Siskiyou/I-5</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="callout" style="text-align: center;">
+                <h3 style="margin-bottom: 15px;">The Strategy</h3>
+                <p style="font-size: 17px; line-height: 1.8; color: #6a6a6a;">
+                    • 3-day forecasts = highly accurate<br>
+                    • Track both US and Canadian models<br>
+                    • Join resort Facebook groups for locals beta
+                </p>
+            </div>
+
+            <p class="bottom-note">Budget flexibility + weather awareness = powder success</p>
+        </div>
+    </section>
+
+    <!-- Slide 8: Details -->
+    <section class="slide">
+        <div class="slide-bg" style="background-image: url('images/slide2.png'); opacity: 0.08;"></div>
+        <div class="slide-content">
+            <h2>Details</h2>
+
+            <div style="overflow-x: auto; margin: 30px 0;">
+                <table class="route-table" style="font-size: 13px;">
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Town</th>
+                            <th>AM Drive</th>
+                            <th>Mountain</th>
+                            <th>Ski Time</th>
+                            <th>PM Drive</th>
+                            <th>Total Drive</th>
+                            <th>Night Stay</th>
+                            <th>Lift Ticket</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>-1</td>
+                            <td>Folsom, CA</td>
+                            <td>2</td>
+                            <td>Heavenly</td>
+                            <td style="background: rgba(212,231,247,0.4);">7</td>
+                            <td>0</td>
+                            <td>2</td>
+                            <td>SLT</td>
+                            <td>Epic</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td>SLT</td>
+                            <td>4.8</td>
+                            <td>Warner Canyon</td>
+                            <td>4</td>
+                            <td>0.2</td>
+                            <td style="background: rgba(255,182,193,0.3);">5</td>
+                            <td>Lake View, OR</td>
+                            <td>$50</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>Lake View, OR</td>
+                            <td>3</td>
+                            <td>Mt Bachelor</td>
+                            <td>5</td>
+                            <td>0.8</td>
+                            <td>3.8</td>
+                            <td>Redmond, OR</td>
+                            <td>Epic</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Redmond, OR</td>
+                            <td>3</td>
+                            <td>-</td>
+                            <td style="background: rgba(184,164,209,0.2);">-</td>
+                            <td>4</td>
+                            <td style="background: rgba(255,182,193,0.3);">7</td>
+                            <td>Coeur d'Alene, ID</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Coeur d'Alene, ID</td>
+                            <td>1</td>
+                            <td>Schweitzer</td>
+                            <td>5</td>
+                            <td>2.5</td>
+                            <td>3.5</td>
+                            <td>Cranbrook, BC</td>
+                            <td>IKON</td>
+                        </tr>
+                        <tr style="background: rgba(212,245,233,0.2);">
+                            <td>4</td>
+                            <td>Cranbrook, BC</td>
+                            <td colspan="6" style="text-align: center; font-weight: 600;">Kimberley</td>
+                            <td>Epic</td>
+                        </tr>
+                        <tr style="background: rgba(212,245,233,0.2);">
+                            <td>5-17</td>
+                            <td colspan="3" style="text-align: center;">Play by ear<br>stay nearby<br>next powder chase</td>
+                            <td colspan="5" style="text-align: left; padding: 15px;">
+                                <strong>Revelstoke 3-5 Days</strong> | <strong>Kicking Horse 3-5 Days</strong><br><br>
+                                <strong>Storm Chase Options:</strong><br>
+                                Red Mountain (IKON) • Lake Louise • Sun Peaks<br>
+                                Revelstoke • Panorama • Silver Star (bonus)<br>
+                                Kicking Horse (Epic) • Kimberley • Fernie • Nakiska
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>18</td>
+                            <td>Creston, BC</td>
+                            <td>1</td>
+                            <td>Schweitzer</td>
+                            <td>4</td>
+                            <td>4</td>
+                            <td style="background: rgba(255,182,193,0.3);">5</td>
+                            <td>Pasco, WA</td>
+                            <td>IKON</td>
+                        </tr>
+                        <tr>
+                            <td>19</td>
+                            <td>Pasco, WA</td>
+                            <td>3.3</td>
+                            <td>Mt Hood</td>
+                            <td>3</td>
+                            <td>2</td>
+                            <td style="background: rgba(255,182,193,0.3);">5.3</td>
+                            <td>Redmond, OR</td>
+                            <td>$99</td>
+                        </tr>
+                        <tr>
+                            <td>20</td>
+                            <td>Redmond, OR</td>
+                            <td>0.8</td>
+                            <td>Mt Bachelor</td>
+                            <td>4</td>
+                            <td>3.6</td>
+                            <td>4.4</td>
+                            <td>Weed, CA</td>
+                            <td>Epic</td>
+                        </tr>
+                        <tr>
+                            <td>21</td>
+                            <td>Weed, CA</td>
+                            <td>4.3</td>
+                            <td>-</td>
+                            <td style="background: rgba(184,164,209,0.2);">-</td>
+                            <td>2.6</td>
+                            <td style="background: rgba(255,182,193,0.3);">6.9</td>
+                            <td>Folsom, CA</td>
+                            <td>-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p class="bottom-note">Complete day-by-day breakdown with drive times and mountain stops</p>
+        </div>
+    </section>
+
+    <!-- Slide 9: Let's Do This -->
+    <section class="slide" style="min-height: 100vh;">
+        <div class="slide-bg" style="background-image: url('images/slide4.png');"></div>
+        <div class="slide-content" style="text-align: center;">
+            <h1 style="font-size: clamp(60px, 10vw, 110px); margin-bottom: 50px; color: var(--gentle-purple);">
+                22 DAYS<br>
+                14 MOUNTAINS<br>
+                INFINITE POWDER
+            </h1>
+
+            <div class="accent-line" style="margin: 50px auto;"></div>
+
+            <p class="subtitle" style="font-size: 30px; margin: 40px 0;">
+                Ready to chase the greatest snow on earth?
+            </p>
+
+            <div class="checklist">
+                <div class="checklist-item">✓ Epic & IKON passes ready</div>
+                <div class="checklist-item">✓ 3-4 weeks of freedom</div>
+                <div class="checklist-item">✓ Taste for adventure</div>
+                <div class="checklist-item">✓ Powder fever</div>
+            </div>
+
+            <div style="margin-top: 70px;">
+                <p style="font-family: var(--font-display); font-size: 44px; letter-spacing: 2px; color: var(--soft-coral); font-weight: 600;">
+                    JANUARY-FEBRUARY 2026
+                </p>
+                <p class="subtitle" style="font-size: 32px; margin-top: 30px;">
+                    The Powder Highway Awaits
+                </p>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
