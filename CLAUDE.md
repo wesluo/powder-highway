@@ -11,8 +11,8 @@ The TICKET column in the Details table contains ski pass/ticket information that
 3. Do not guess day ticket prices
 
 **Current accurate pass affiliations (as of Jan 2026):**
-- Epic: Heavenly, Fernie, Kicking Horse, Lake Louise, Kimberley
-- IKON: Sun Valley, Whitefish ($105 day), Revelstoke, Sunshine, Mt Bachelor, Schweitzer, Panorama
+- Epic: Heavenly, Fernie, Kicking Horse, Kimberley
+- IKON: Sun Valley, Revelstoke, Sunshine, Mt Bachelor, Schweitzer, Panorama, Lake Louise
 - Independent (day ticket): Warner Canyon ($50), Bogus Basin ($79), Lost Trail Powder ($55), Mt Hood ($99), Whitefish ($105)
 
 If uncertain about any resort's pass affiliation or day ticket price, **ASK THE USER** before making changes.
