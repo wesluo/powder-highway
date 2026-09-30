@@ -1,0 +1,47 @@
+name: Chelsea ticket watcher
+
+# GitHub cron can't go below 5 minutes, so each run checks every 60s in a loop
+# for ~5h45m. The frequent schedule keeps one run queued behind the active one
+# (concurrency below), so the next loop starts as soon as the current one ends.
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: chelsea-ticket-watcher
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  watch:
+    # Does nothing until the EVENT_URL repository variable is set.
+    if: ${{ vars.CHELSEA_EVENT_URL != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Playwright
+        run: |
+          pip install -r tools/chelsea-tickets/requirements.txt
+          python -m playwright install --with-deps chromium
+
+      - name: Watch ticket page
+        env:
+          EVENT_URL: ${{ vars.CHELSEA_EVENT_URL }}
+          EVENT_NAME: ${{ vars.CHELSEA_EVENT_NAME }}
+          AVAILABLE_PATTERNS: ${{ vars.CHELSEA_AVAILABLE_PATTERNS }}
+          SOLD_OUT_PATTERNS: ${{ vars.CHELSEA_SOLD_OUT_PATTERNS }}
+          INTERVAL_SECONDS: "60"
+          RUN_MINUTES: "340"
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          ALERT_TO: ${{ secrets.ALERT_TO }}
+        run: python tools/chelsea-tickets/check.py
