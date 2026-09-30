@@ -17,8 +17,8 @@ permissions:
 
 jobs:
   watch:
-    # Does nothing until the EVENT_URL repository variable is set.
-    if: ${{ vars.CHELSEA_EVENT_URL != '' }}
+    # Does nothing until the matches to watch are configured.
+    if: ${{ vars.CHELSEA_EVENTS != '' || vars.CHELSEA_EVENT_URL != '' }}
     runs-on: ubuntu-latest
     timeout-minutes: 355
     steps:
@@ -35,6 +35,7 @@ jobs:
 
       - name: Watch ticket page
         env:
+          EVENTS: ${{ vars.CHELSEA_EVENTS }}
           EVENT_URL: ${{ vars.CHELSEA_EVENT_URL }}
           EVENT_NAME: ${{ vars.CHELSEA_EVENT_NAME }}
           AVAILABLE_PATTERNS: ${{ vars.CHELSEA_AVAILABLE_PATTERNS }}
@@ -44,4 +45,10 @@ jobs:
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           ALERT_TO: ${{ secrets.ALERT_TO }}
+          CHELSEA_USERNAME: ${{ secrets.CHELSEA_USERNAME }}
+          CHELSEA_PASSWORD: ${{ secrets.CHELSEA_PASSWORD }}
+          LOGIN_URL: ${{ vars.CHELSEA_LOGIN_URL }}
+          LOGIN_USER_SELECTOR: ${{ vars.CHELSEA_LOGIN_USER_SELECTOR }}
+          LOGIN_PASSWORD_SELECTOR: ${{ vars.CHELSEA_LOGIN_PASSWORD_SELECTOR }}
+          LOGIN_SUBMIT_SELECTOR: ${{ vars.CHELSEA_LOGIN_SUBMIT_SELECTOR }}
         run: python tools/chelsea-tickets/check.py

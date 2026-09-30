@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
-"""Watch a Chelsea FC ticketing page and email when tickets become available.
+"""Watch Chelsea FC ticketing pages and email when tickets become available.
 
-Loads the page in headless Chromium once per interval, classifies it as
+Loads each page in headless Chromium once per interval, classifies it as
 available / sold_out / queue / unknown / error, and emails on transitions
 into an interesting state. Everything is configured through environment
 variables so the GitHub Actions workflow can pass repo secrets/variables.
 
-Required:
-  EVENT_URL            Fixture page on the ticketing site.
+Required (one of):
+  EVENTS               One match per line as "Name | URL", e.g.
+                       "Chelsea v Bournemouth | https://...".
+  EVENT_URL            A single fixture page (named by EVENT_NAME).
 
 Email (skipped with a log line if unset, handy for local dry runs):
   GMAIL_USER           Gmail address that sends the alert.
@@ -15,7 +17,7 @@ Email (skipped with a log line if unset, handy for local dry runs):
   ALERT_TO             Recipient; defaults to GMAIL_USER.
 
 Optional:
-  EVENT_NAME           Label used in emails (default: "Chelsea FC tickets").
+  EVENT_NAME           Label for EVENT_URL (default: "Chelsea FC tickets").
   AVAILABLE_PATTERNS   Regexes, separated by "|", that mean tickets can be bought.
   SOLD_OUT_PATTERNS    Regexes, separated by "|", that mean nothing is on sale.
   INTERVAL_SECONDS     Seconds between checks (default 60).
@@ -23,6 +25,14 @@ Optional:
   ERROR_ALERT_AFTER    Consecutive failed checks before a "checker is blocked"
                        email (default 15).
   ONCE                 If "1", check once, print the state and exit.
+
+Login (only used when the page shows a login form):
+  CHELSEA_USERNAME     Chelsea account email.
+  CHELSEA_PASSWORD     Chelsea account password.
+  LOGIN_URL            Sign-in page to open first, if the event page doesn't
+                       redirect to it.
+  LOGIN_USER_SELECTOR, LOGIN_PASSWORD_SELECTOR, LOGIN_SUBMIT_SELECTOR
+                       CSS selectors overriding the generic defaults.
 """
 
 from __future__ import annotations
@@ -55,6 +65,16 @@ DEFAULT_SOLD_OUT = "|".join([
     r"sale (has )?(ended|closed)",
 ])
 # Queue-it hosts the virtual waiting room used for busy sales.
+DEFAULT_USER_SELECTOR = ", ".join([
+    'input[type="email"]',
+    'input[autocomplete="username"]',
+    'input[name*="email" i]',
+    'input[name*="user" i]',
+    'input[id*="email" i]',
+    'input[id*="user" i]',
+])
+DEFAULT_PASSWORD_SELECTOR = 'input[type="password"]'
+DEFAULT_SUBMIT_SELECTOR = 'button[type="submit"], input[type="submit"]'
 QUEUE_MARKERS = re.compile(r"queue-it\.net|you are (now )?in (the )?(line|queue)", re.I)
 
 ALERT_STATES = {"available", "queue"}
@@ -98,23 +118,144 @@ def send_email(subject: str, body: str) -> None:
     log(f"email sent: {subject}")
 
 
-def check(page, url: str, available: re.Pattern[str], sold_out: re.Pattern[str]) -> tuple[str, str]:
-    page.goto(url, wait_until="domcontentloaded", timeout=45_000)
+class LoginFailed(Exception):
+    pass
+
+
+class Login:
+    """Signs in when the page shows a password field; the session cookie is
+    then reused across checks. Stops trying after MAX_FAILURES failures in a
+    row so a wrong password can't get the account locked."""
+
+    MAX_FAILURES = 3
+
+    def __init__(self) -> None:
+        self.username = os.environ.get("CHELSEA_USERNAME", "")
+        self.password = os.environ.get("CHELSEA_PASSWORD", "")
+        self.login_url = os.environ.get("LOGIN_URL", "").strip()
+        self.user_sel = os.environ.get("LOGIN_USER_SELECTOR") or DEFAULT_USER_SELECTOR
+        self.pass_sel = os.environ.get("LOGIN_PASSWORD_SELECTOR") or DEFAULT_PASSWORD_SELECTOR
+        self.submit_sel = os.environ.get("LOGIN_SUBMIT_SELECTOR") or DEFAULT_SUBMIT_SELECTOR
+        self.failures = 0
+
+    @property
+    def configured(self) -> bool:
+        return bool(self.username and self.password)
+
+    @property
+    def gave_up(self) -> bool:
+        return self.failures >= self.MAX_FAILURES
+
+    def needed(self, page) -> bool:
+        return page.locator(self.pass_sel).first.is_visible() or page.locator(
+            self.user_sel).first.is_visible() and "login" in page.url.lower()
+
+    def sign_in(self, page) -> None:
+        if self.login_url:
+            load(page, self.login_url)
+        page.locator(self.user_sel).first.fill(self.username, timeout=15_000)
+        # Some identity providers ask for the email first, then the password.
+        if not page.locator(self.pass_sel).first.is_visible():
+            page.locator(self.submit_sel).first.click(timeout=10_000)
+        page.locator(self.pass_sel).first.fill(self.password, timeout=15_000)
+        page.locator(self.submit_sel).first.click(timeout=10_000)
+        settle(page)
+        log("submitted login form")
+
+
+def settle(page) -> None:
     # Ticketing pages render availability client-side; give scripts a moment.
     try:
         page.wait_for_load_state("networkidle", timeout=15_000)
     except PlaywrightError:
         pass
+
+
+def load(page, url: str) -> None:
+    page.goto(url, wait_until="domcontentloaded", timeout=45_000)
+    settle(page)
+
+
+def check(page, url: str, login: Login, available: re.Pattern[str], sold_out: re.Pattern[str]) -> tuple[str, str]:
+    load(page, url)
+    if login.needed(page):
+        if not login.configured:
+            raise LoginFailed("page asks for a login but CHELSEA_USERNAME/CHELSEA_PASSWORD are not set")
+        if login.gave_up:
+            raise LoginFailed(f"not retrying login after {login.failures} failures")
+        login.sign_in(page)
+        load(page, url)
+        if login.needed(page):
+            login.failures += 1
+            raise LoginFailed(f"still asked to log in after attempt {login.failures}")
+        login.failures = 0
+        log("logged in")
     text = page.inner_text("body", timeout=10_000)
     return classify(page.url, text, available, sold_out)
 
 
+class Event:
+    def __init__(self, name: str, url: str) -> None:
+        self.name = name
+        self.url = url
+        self.previous: str | None = None
+        self.errors = 0
+        self.error_alerted = False
+
+
+def parse_events() -> list[Event]:
+    """EVENTS holds one "Name | URL" per line; EVENT_URL/EVENT_NAME is the
+    single-match shorthand."""
+    events = []
+    for line in os.environ.get("EVENTS", "").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        name, sep, url = line.rpartition("|")
+        if not sep:
+            name, url = "", line
+        events.append(Event(name.strip() or url.strip(), url.strip()))
+    single = os.environ.get("EVENT_URL", "").strip()
+    if single:
+        events.append(Event(os.environ.get("EVENT_NAME") or "Chelsea FC tickets", single))
+    return events
+
+
+def watch(page, event: Event, login: Login, available, sold_out, error_alert_after: int) -> str:
+    try:
+        state, detail = check(page, event.url, login, available, sold_out)
+        event.errors = 0
+        event.error_alerted = False
+    except Exception as exc:  # network errors, timeouts, bot walls, login
+        state, detail = "error", f"{type(exc).__name__}: {exc}".splitlines()[0]
+        event.errors += 1
+    log(f"{event.name}: state={state} {detail!r}")
+
+    if state in ALERT_STATES and state != event.previous:
+        headline = "AVAILABLE" if state == "available" else "sale queue is open"
+        send_email(
+            f"[Chelsea tickets] {event.name}: {headline}",
+            f"{event.name}\nState: {state} (matched: {detail})\n\nGo now: {event.url}\n",
+        )
+    failing = event.errors >= error_alert_after or login.gave_up
+    if state == "error" and failing and not event.error_alerted:
+        send_email(
+            f"[Chelsea tickets] checker failing for {event.name}",
+            f"The last {event.errors} checks failed; the site may be blocking the runner,\n"
+            f"or the Chelsea login stopped working.\n"
+            f"Last error: {detail}\n\nPage: {event.url}\n",
+        )
+        event.error_alerted = True
+    if state != "error":
+        event.previous = state
+    return state
+
+
 def main() -> int:
-    url = os.environ.get("EVENT_URL", "").strip()
-    if not url:
-        log("EVENT_URL is not set")
+    events = parse_events()
+    if not events:
+        log("set EVENTS (one \"Name | URL\" per line) or EVENT_URL")
         return 2
-    name = os.environ.get("EVENT_NAME") or "Chelsea FC tickets"
     available = compile_patterns(os.environ.get("AVAILABLE_PATTERNS") or DEFAULT_AVAILABLE)
     sold_out = compile_patterns(os.environ.get("SOLD_OUT_PATTERNS") or DEFAULT_SOLD_OUT)
     interval = int(os.environ.get("INTERVAL_SECONDS") or 60)
@@ -123,11 +264,10 @@ def main() -> int:
     once = os.environ.get("ONCE") == "1"
     deadline = time.monotonic() + run_minutes * 60 if run_minutes else None
 
-    previous = None
-    errors = 0
-    error_alerted = False
+    login = Login()
     with sync_playwright() as pw:
         browser = pw.chromium.launch(headless=True)
+        # One context for all matches, so a single login covers every page.
         context = browser.new_context(
             user_agent=(
                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -138,34 +278,9 @@ def main() -> int:
         page = context.new_page()
         while True:
             started = time.monotonic()
-            try:
-                state, detail = check(page, url, available, sold_out)
-                errors = 0
-                error_alerted = False
-            except Exception as exc:  # network errors, timeouts, bot walls
-                state, detail = "error", f"{type(exc).__name__}: {exc}".splitlines()[0]
-                errors += 1
-
-            log(f"state={state} {detail!r}")
+            states = [watch(page, e, login, available, sold_out, error_alert_after) for e in events]
             if once:
-                return 0 if state != "error" else 1
-
-            if state in ALERT_STATES and state != previous:
-                headline = "AVAILABLE" if state == "available" else "sale queue is open"
-                send_email(
-                    f"[Chelsea tickets] {name}: {headline}",
-                    f"{name}\nState: {state} (matched: {detail})\n\nGo now: {url}\n",
-                )
-            if state == "error" and errors >= error_alert_after and not error_alerted:
-                send_email(
-                    f"[Chelsea tickets] checker failing for {name}",
-                    f"The last {errors} checks failed; the site may be blocking the runner.\n"
-                    f"Last error: {detail}\n\nPage: {url}\n",
-                )
-                error_alerted = True
-            if state != "error":
-                previous = state
-
+                return 1 if "error" in states else 0
             if deadline and time.monotonic() >= deadline:
                 log("run window finished")
                 return 0
